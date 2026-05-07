@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  // url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          String    @default("student") // "student", "admin", "instructor"
+  enrollments   Enrollment[]
+  testResults   TestResult[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Course {
+  id            String    @id @default(cuid())
+  title         String    @unique
+  slug          String    @unique
+  description   String
+  category      String    // "Finance & Accounting", "Computer Applications", etc.
+  duration      String    // "3 months", "6-12 months", etc.
+  studentsCount Int       @default(0)
+  instructor    String
+  image         String?
+  modules       Module[]
+  enrollments   Enrollment[]
+  tests         Test[]
+  notes         Note[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Module {
+  id            String    @id @default(cuid())
+  courseId      String
+  course        Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?
+  order         Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([courseId, title])
+}
+
+model Enrollment {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId      String
+  course        Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrolledAt    DateTime  @default(now())
+
+  @@unique([userId, courseId])
+}
+
+model Test {
+  id            String    @id @default(cuid())
+  title         String
+  slug          String    @unique
+  courseId      String
+  course        Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  module        String    // "M1", "M2", etc.
+  totalQuestions Int
+  description   String?
+  questions     Question[]
+  results       TestResult[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Question {
+  id            String    @id @default(cuid())
+  testId        String
+  test          Test      @relation(fields: [testId], references: [id], onDelete: Cascade)
+  questionText  String
+  options       String    // JSON array of options
+  correctAnswer String
+  explanation   String?
+  order         Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model TestResult {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  testId        String
+  test          Test      @relation(fields: [testId], references: [id], onDelete: Cascade)
+  score         Int
+  totalQuestions Int
+  answers       String    // JSON array of answers
+  completedAt   DateTime  @default(now())
+}
+
+model Note {
+  id            String    @id @default(cuid())
+  title         String
+  slug          String    @unique
+  courseId      String
+  course        Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  content       String    // Rich text content
+  topics        String    // JSON array of topics
+  order         Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model BlogPost {
+  id            String    @id @default(cuid())
+  title         String    @unique
+  slug          String    @unique
+  content       String    // Rich text content
+  excerpt       String
+  image         String?
+  category      String
+  author        String    @default("Nice Academy")
+  published     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  publishedAt   DateTime?
+}
+
+model Certificate {
+  id            String    @id @default(cuid())
+  serialNumber  String    @unique
+  rollNumber    String    @unique
+  studentName   String
+  courseName    String
+  completionDate DateTime
+  verificationCode String @unique
+  isValid       Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Settings {
+  id            String    @id @default(cuid())
+  key           String    @unique
+  value         String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
