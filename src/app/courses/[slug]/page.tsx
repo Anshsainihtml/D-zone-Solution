@@ -216,6 +216,7 @@ const courses: Course[] = [
       { id: '2', title: 'Accounting & GST', description: 'Transactions, GST compliance', order: 2 },
       { id: '3', title: 'Inventory & Payroll', description: 'Stock, employee management', order: 3 },
       { id: '4', title: 'Reports & Analysis', description: 'Financial statements, MIS', order: 4 }
+    ]
   },
   {
     id: '4',
