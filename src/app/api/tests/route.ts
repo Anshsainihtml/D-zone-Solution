@@ -229,9 +229,14 @@ export async function GET(request: Request) {
   }
 }
 
+interface AnswerItem {
+  questionId: string;
+  answer: string;
+}
+
 interface TestRequestBody {
   course: keyof typeof testQuestions;
-  answers: string[];
+  answers: AnswerItem[];
 }
 
 interface TestResultItem {
@@ -259,7 +264,7 @@ export async function POST(request: Request) {
 
     for (let i = 0; i < questions.length; i++) {
       const question = questions[i]
-      const userAnswer = answers[i] ?? ''
+      const userAnswer = answers[i]?.answer ?? ''
       const isCorrect = userAnswer === question.correctAnswer
 
       if (isCorrect) correct++

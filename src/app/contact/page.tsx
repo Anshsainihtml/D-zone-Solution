@@ -8,7 +8,7 @@ export default function ContactPage() {
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
           <p className="text-xl text-gray-200">
-            Get in touch with Nice Academy Bilari
+            Get in touch with D-Zone Solutions Noorpur
           </p>
         </div>
       </section>
@@ -90,7 +90,7 @@ export default function ContactPage() {
                     📍 Location
                   </h3>
                   <p className="text-gray-700">
-                    Bilari, Moradabad
+                    Noorpur Bijnor 
                     <br />
                     Uttar Pradesh, India
                   </p>
@@ -101,7 +101,7 @@ export default function ContactPage() {
                     📞 Phone
                   </h3>
                   <p className="text-gray-700">
-                    +91-XXXXXXXXXX
+                    +91-9058600703
                   </p>
                 </div>
 
@@ -119,9 +119,8 @@ export default function ContactPage() {
                     🕒 Working Hours
                   </h3>
                   <p className="text-gray-700">
-                    Monday - Friday: 9:00 AM - 6:00 PM
-                    <br />
-                    Saturday: 10:00 AM - 4:00 PM
+                    Monday - Saturday: 9:00 AM - 6:00 PM
+
                     <br />
                     Sunday: Closed
                   </p>

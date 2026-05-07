@@ -87,10 +87,10 @@ export default function CoursesPage() {
                 <p className="text-gray-700 mb-4 text-sm">{course.description}</p>
 
                 <div className="space-y-2 mb-4 text-sm text-gray-600">
-                  <p>⏱️ Duration: {course.duration}</p>
-                  <p>👥 Students: {course.studentsCount}+</p>
-                  <p>👨‍🏫 Instructor: {course.instructor}</p>
-                  <p>📚 Modules: {course.modules.length}</p>
+                  <p>Duration: {course.duration}</p>
+                  <p>Students: {course.studentsCount}+</p>
+                  <p>Instructor: {course.instructor}</p>
+                  <p>Modules: {course.modules.length}</p>
                 </div>
 
                 <div className="flex flex-col gap-3">

@@ -35,9 +35,7 @@ export default function RootLayout({
               <Link href="/notes" className="text-gray-700 hover:text-black transition">
                 Notes
               </Link>
-              <Link href="/blog" className="text-gray-700 hover:text-black transition">
-                Blog
-              </Link>
+             
               <Link href="/about" className="text-gray-700 hover:text-black transition">
                 About
               </Link>

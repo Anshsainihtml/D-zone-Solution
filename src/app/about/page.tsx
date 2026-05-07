@@ -4,9 +4,9 @@ export default function AboutPage() {
       {/* Header */}
       <section className="bg-black text-white py-12">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">About Nice Academy</h1>
+          <h1 className="text-4xl font-bold mb-4">About D-Zone Solutions</h1>
           <p className="text-xl text-gray-200">
-            Excellence in Computer Education Since 2009
+            Excellence in Computer Education Since 2021
           </p>
         </div>
       </section>
@@ -17,7 +17,7 @@ export default function AboutPage() {
           <div className="max-w-4xl">
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
             <p className="text-gray-700 mb-4">
-              Nice Academy पिछले 15+ वर्षों से Kundarki और अब Bilari का सबसे
+              D-Zone Solutions पिछले 5+ वर्षों से Noorpur का सबसे
               trusted, experienced और best computer institute है। हमने अब तक
               हजारों students को computer education, accounting skills और
               digital training देकर उनका career strong बनाया है।
@@ -32,11 +32,11 @@ export default function AboutPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-12 bg-zinc-100 p-8 rounded-lg">
               <div className="text-center">
-                <h3 className="text-4xl font-bold text-black">15+</h3>
+                <h3 className="text-4xl font-bold text-black">5+</h3>
                 <p className="text-gray-600 mt-2">Years Experience</p>
               </div>
               <div className="text-center">
-                <h3 className="text-4xl font-bold text-black">4000+</h3>
+                <h3 className="text-4xl font-bold text-black">3000+</h3>
                 <p className="text-gray-600 mt-2">Students Trained</p>
               </div>
               <div className="text-center">
@@ -50,14 +50,14 @@ export default function AboutPage() {
             </div>
 
             {/* Why Choose Us */}
-            <h2 className="text-3xl font-bold mb-6">Why Choose Nice Academy?</h2>
+            <h2 className="text-3xl font-bold mb-6">Why Choose D-Zone Solutions?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               <div className="bg-gradient-to-br from-zinc-100 to-zinc-100 p-6 rounded-lg">
                 <h3 className="text-xl font-bold text-black mb-3">
                   Expert Instructors
                 </h3>
                 <p className="text-gray-700">
-                  Our instructors have 15+ years of experience in computer education
+                  Our instructors have 5+ years of experience in computer education
                   and industry.
                 </p>
               </div>
@@ -109,10 +109,10 @@ export default function AboutPage() {
             <div id="team" className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg shadow-md p-6 text-center border border-gray-200">
                 <div className="bg-zinc-200 w-24 h-24 rounded-full mx-auto mb-4"></div>
-                <h3 className="text-xl font-bold">Nadeem Sir</h3>
+                <h3 className="text-xl font-bold">Zubair Sir</h3>
                 <p className="text-black font-semibold">Director & Instructor</p>
                 <p className="text-gray-600 text-sm mt-2">
-                  15+ years of experience in computer education
+                  3+ years of experience in computer education
                 </p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6 text-center border border-gray-200">
