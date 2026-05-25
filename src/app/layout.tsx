@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import MobileMenu from "../components/MobileMenu";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "D-Zone Solutions Noorpur - Best Computer Institute",
-  description: "Computer courses, accounting training, and digital education in Bilari",
+  description: "Computer courses, accounting training, and digital education in noorpur. Join D-Zone Solutions for quality education at affordable fees.",
 };
 
 export default function RootLayout({
@@ -29,6 +30,9 @@ export default function RootLayout({
               <Link href="/courses" className="text-gray-700 hover:text-black transition">
                 Courses
               </Link>
+              <Link href="/certificate" className="text-gray-700 hover:text-black transition">
+                Certificate
+              </Link>
               <Link href="/tests" className="text-gray-700 hover:text-black transition">
                 Practice Tests
               </Link>
@@ -45,35 +49,7 @@ export default function RootLayout({
             </div>
 
             <div className="md:hidden">
-              <details className="relative">
-                <summary className="flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer">
-                  Menu
-                  <span className="text-lg">☰</span>
-                </summary>
-                <div className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
-                  <Link href="/" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    Home
-                  </Link>
-                  <Link href="/courses" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    Courses
-                  </Link>
-                  <Link href="/tests" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    Practice Tests
-                  </Link>
-                  <Link href="/notes" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    Notes
-                  </Link>
-                  <Link href="/blog" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    Blog
-                  </Link>
-                  <Link href="/about" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    About
-                  </Link>
-                  <Link href="/contact" className="block px-4 py-3 text-gray-700 hover:bg-gray-100">
-                    Contact
-                  </Link>
-                </div>
-              </details>
+              <MobileMenu />
             </div>
           </div>
         </nav>
@@ -128,11 +104,6 @@ export default function RootLayout({
                   <li>
                     <Link href="/notes" className="hover:text-white">
                       Study Notes
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/blog" className="hover:text-white">
-                      Blog
                     </Link>
                   </li>
                 </ul>

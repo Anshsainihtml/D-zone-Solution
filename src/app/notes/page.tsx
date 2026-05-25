@@ -1,97 +1,78 @@
-export default function NotesPage() {
-  const notes = [
-    {
-      id: 1,
-      title: "DFA – Financial Accounting Notes",
-      course: "DFA",
-      topics: 12,
-      description: "Tally Prime, GST, TDS, accounting fundamentals, voucher entries",
-    },
-    {
-      id: 2,
-      title: "DCA – Computer Applications Notes",
-      course: "DCA",
-      topics: 9,
-      description: "MS Office, Windows OS, Internet basics, Email, typing",
-    },
-    {
-      id: 3,
-      title: "ADCA – Advanced Computer Applications",
-      course: "ADCA",
-      topics: 14,
-      description: "Advanced MS Office, Excel automation, Tally basics, CorelDraw",
-    },
-    {
-      id: 4,
-      title: "CCC – Computer Concepts Notes",
-      course: "CCC",
-      topics: 11,
-      description: "LibreOffice, Internet tools, cyber security, digital financial tools",
-    },
-    {
-      id: 5,
-      title: "O Level – NIELIT Certification Notes",
-      course: "O Level",
-      topics: 8,
-      description: "IT tools, HTML/CSS, Python programming, database basics",
-    },
-    {
-      id: 6,
-      title: "Tally Prime with GST Notes",
-      course: "Tally",
-      topics: 8,
-      description: "Accounting fundamentals, GST configuration, payroll management",
-    },
-  ];
+import Link from "next/link"
+import { type NoteItem } from "@/lib/notes"
+
+const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  if (process.env.NEXTAUTH_URL) return process.env.NEXTAUTH_URL
+  return "http://localhost:3000"
+}
+
+async function getNotes(): Promise<NoteItem[]> {
+  const response = await fetch(`${getBaseUrl()}/api/notes`, {
+    cache: "no-store",
+  })
+
+  if (!response.ok) {
+    throw new Error("Failed to load notes")
+  }
+
+  const data = await response.json() as { notes: NoteItem[] }
+  return data.notes
+}
+
+export default async function NotesPage() {
+  const notes = await getNotes()
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Header */}
       <section className="bg-black text-white py-12">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Study Notes</h1>
           <p className="text-xl text-gray-200">
-            Access comprehensive study notes for all our courses
+            Access comprehensive study notes for all our courses - Coming Soon
           </p>
         </div>
       </section>
 
-      {/* Notes */}
-      <section className="py-16">
+      <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Course Notes</h2>
+          <p className="text-xl text-gray-600 mb-12 text-center">
+            Access comprehensive study notes for all our courses - Coming Soon
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
-              <div
-                key={note.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border border-gray-200"
-              >
-                <span className="text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full">
-                  {note.course}
-                </span>
-                <h3 className="text-xl font-bold mt-4 mb-2">{note.title}</h3>
-                <p className="text-gray-700 mb-4 text-sm">{note.description}</p>
-
-                <div className="space-y-2 mb-4 text-sm text-gray-600">
-                  <p>📖 Topics: {note.topics}</p>
+              <div key={note.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border border-gray-200">
+                <h3 className="text-xl font-bold mb-2">{note.title}</h3>
+                <p className="text-gray-600 mb-4">{note.description}</p>
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm font-semibold text-black">{note.topics}</span>
+                  <span className="text-sm text-gray-500">{note.comingSoon ? "Coming Soon" : "Available"}</span>
                 </div>
-
-                <button className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition">
-                  View Notes
-                </button>
+                {note.comingSoon ? (
+                  <button className="w-full bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed">
+                    Coming Soon
+                  </button>
+                ) : (
+                  <Link href="/notes">
+                    <button className="w-full bg-black text-white px-4 py-2 rounded-lg hover:bg-black transition">
+                      View Notes
+                    </button>
+                  </Link>
+                )}
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Coming Soon Notice */}
-      <section className="bg-yellow-50 py-8">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-gray-700">
-            ⏳ अधिक विस्तृत नोट्स शीघ्र जोड़े जाएंगे
-          </p>
+          <div className="text-center mt-8">
+            <Link href="/notes">
+              <button className="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-black transition">
+                View All Notes
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
     </main>
-  );
+  )
 }

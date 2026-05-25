@@ -9,7 +9,6 @@ A complete full-stack website for Nice Academy, a computer institute in Bilari o
 - ✅ **Interactive Practice Tests** - Real-time MCQ tests with scoring and explanations
 - ✅ **Certificate Verification** - Online certificate verification with API
 - ✅ **Study Notes** - Comprehensive course notes and study materials
-- ✅ **Blog System** - Blog posts and articles
 - ✅ **Contact Form** - Get in touch with the academy
 - ✅ **About Page** - Academy information and team details
 - ✅ **Responsive Design** - Mobile-friendly interface
@@ -36,7 +35,6 @@ nice-academy/
 │   │   ├── courses/           # Courses page
 │   │   ├── tests/             # Practice tests page
 │   │   ├── notes/             # Study notes page
-│   │   ├── blog/              # Blog posts page
 │   │   ├── contact/           # Contact page
 │   │   ├── about/             # About page
 │   │   ├── certificate/       # Certificate verification
@@ -88,7 +86,6 @@ Visit `http://localhost:3000` in your browser.
 - **Courses** - `/courses` - All courses listing with API-driven data
 - **Practice Tests** - `/tests` - Interactive MCQ tests with real-time scoring
 - **Study Notes** - `/notes` - Course study materials
-- **Blog** - `/blog` - Academy blog and articles
 - **About** - `/about` - About the academy and team
 - **Contact** - `/contact` - Contact form and information
 - **Certificate** - `/certificate` - Online certificate verification
@@ -118,7 +115,6 @@ The Prisma schema includes models for:
 - **Test** - Practice tests and MCQs
 - **Question** - Individual test questions
 - **Note** - Study materials and notes
-- **BlogPost** - Blog articles and posts
 - **Certificate** - Certificate verification
 - **User** - Student and instructor profiles
 - **Enrollment** - Course enrollments
