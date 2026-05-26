@@ -1,29 +1,7 @@
 import Link from "next/link"
-import { type NoteItem } from "@/lib/notes"
+import { notes } from "@/lib/notes"
 
-const getBaseUrl = () => {
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
-  if (process.env.NEXTAUTH_URL) return process.env.NEXTAUTH_URL
-  return "http://localhost:3000"
-}
-
-async function getNotes(): Promise<NoteItem[]> {
-  const response = await fetch(`${getBaseUrl()}/api/notes`, {
-    cache: "no-store",
-  })
-
-  if (!response.ok) {
-    throw new Error("Failed to load notes")
-  }
-
-  const data = await response.json() as { notes: NoteItem[] }
-  return data.notes
-}
-
-export default async function NotesPage() {
-  const notes = await getNotes()
-
+export default function NotesPage() {
   return (
     <main className="min-h-screen bg-white">
       <section className="bg-black text-white py-12">
