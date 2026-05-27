@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 interface Question {
@@ -266,50 +267,86 @@ export default function TestsPage() {
         </div>
       </section>
 
-      {/* Course Selection */}
+      {/* Practice Tests & MCQs Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Practice Tests & MCQs</h2>
+          <p className="text-xl text-gray-600 mb-12 text-center">
+            8300+ MCQs के साथ chapter-wise practice करें। DFA, DCA, ADCA, CCC, O Level, Tally और सभी courses के लिए test questions।
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course) => (
-              <div
-                key={course.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border border-gray-200"
-              >
-                <h3 className="text-xl font-bold mt-4 mb-2">{course.name}</h3>
-                <div className="space-y-2 mb-4 text-sm text-gray-600">
-                  <p>❓ Questions: {course.questions}</p>
-                  <p>⏱️ Duration: 10-15 minutes</p>
+            {[
+              {
+                title: "Diploma in Computer Applications",
+                chapters: "6 Chapters",
+                questions: "50 MCQs",
+                slug: "dca",
+                description: "MS Office, Windows & Internet MCQs"
+              },
+              {
+                title: "IT Tools and Business Systems",
+                chapters: "19 Chapters",
+                questions: "2,180 MCQs",
+                slug: "o-level-m1",
+                description: "Module 1 (M1-R5) MCQ practice"
+              },
+              {
+                title: "Web Design and Development",
+                chapters: "28 Chapters",
+                questions: "1,120 MCQs",
+                slug: "o-level-m2",
+                description: "Module 2 (M2-R5) MCQ practice"
+              },
+              {
+                title: "Introduction to Programming",
+                chapters: "39 Chapters",
+                questions: "850 MCQs",
+                slug: "o-level-m3",
+                description: "Module 3 (M3-R5) MCQ practice"
+              },
+              {
+                title: "Introduction to IoT",
+                chapters: "46 Chapters",
+                questions: "1,168 MCQs",
+                slug: "o-level-m4",
+                description: "Module 4 (M4-R5) MCQ practice"
+              },
+              {
+                title: "Diploma in Financial Accounting",
+                chapters: "12 Chapters",
+                questions: "600 MCQs",
+                slug: "dfa",
+                description: "Tally Prime, GST, TDS & Accounting MCQs",
+                comingSoon: true
+              },
+            ].map((test, idx) => (
+              <div key={idx} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border border-gray-200">
+                <h3 className="text-xl font-bold mb-2">{test.title}</h3>
+                <p className="text-gray-600 mb-4">{test.description}</p>
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm text-gray-500">{test.chapters}</span>
+                  <span className="text-sm font-semibold text-black">{test.questions}</span>
                 </div>
-
-                <button
-                  onClick={() => startTest(course.id)}
-                  disabled={loading}
-                  className="w-full bg-black text-white py-2 rounded-lg font-semibold hover:bg-black disabled:bg-gray-400 transition"
-                >
-                  {loading ? 'Loading...' : 'Start Practice Test'}
-                </button>
+                {test.comingSoon ? (
+                  <button className="w-full bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed">
+                    Coming Soon
+                  </button>
+                ) : (
+                  <Link href={`/tests/${test.slug}`}>
+                    <button className="w-full bg-black text-white px-4 py-2 rounded-lg hover:bg-black transition">
+                      Start Practice
+                    </button>
+                  </Link>
+                )}
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="bg-zinc-100 py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <h3 className="text-4xl font-bold text-black">100+</h3>
-              <p className="text-gray-600 mt-2">Practice Questions</p>
-            </div>
-            <div>
-              <h3 className="text-4xl font-bold text-black">3</h3>
-              <p className="text-gray-600 mt-2">Course Tests</p>
-            </div>
-            <div>
-              <h3 className="text-4xl font-bold text-black">24/7</h3>
-              <p className="text-gray-600 mt-2">Access Available</p>
-            </div>
+          <div className="text-center mt-8">
+            <Link href="/tests">
+              <button className="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-black transition">
+                View All Tests
+              </button>
+            </Link>
           </div>
         </div>
       </section>
