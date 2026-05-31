@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set LIGHTNINGCSS_WASM=1 && next dev --webpack",
-    "build": "set LIGHTNINGCSS_WASM=1 && next build --webpack",
+    "dev": "cross-env LIGHTNINGCSS_WASM=1 next dev --webpack",
+    "build": "cross-env LIGHTNINGCSS_WASM=1 next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "prisma:migrate": "prisma migrate dev",
