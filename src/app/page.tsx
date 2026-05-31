@@ -1,6 +1,41 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
+
+interface Course {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  duration: string;
+  studentsCount: number;
+  instructor: string;
+  image: string;
+  modules: Array<{ id: string; title: string; description: string; order: number }>;
+}
 
 export default function Home() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('/api/courses');
+        const data = (await response.json()) as { courses: Course[] };
+        setCourses(data.courses);
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -87,84 +122,49 @@ export default function Home() {
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Popular Courses</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                title: "DFA – Diploma in Financial Accounting",
-                category: "Finance & Accounting",
-                duration: "3-6 months",
-                students: "675+",
-                slug: "dfa-diploma-in-financial-accounting",
-                image: "/images/courses/DFA.webp"
-              },
-              {
-                title: "DCA – Diploma in Computer Applications",
-                category: "Computer Applications",
-                duration: "3-6 months",
-                students: "395+",
-                slug: "dca-diploma-in-computer-applications",
-                image: "/images/courses/DCA.webp"
-              },
-              {
-                title: "ADCA – Advanced Diploma in Computer Applications",
-                category: "Computer Applications",
-                duration: "6-12 months",
-                students: "795+",
-                slug: "adca-advanced-diploma-in-computer-applications",
-                image: "/images/courses/ADCA.webp"
-              },
-              {
-                title: "CCC – Course on Computer Concepts",
-                category: "Computer Basics",
-                duration: "3 months",
-                students: "2300+",
-                slug: "ccc-course-on-computer-concepts",
-                image: "/images/courses/CCC.webp"
-              },
-              {
-                title: "O Level – NIELIT Certification Course",
-                category: "Computer Certification",
-                duration: "6-12 months",
-                students: "465+",
-                slug: "o-level-nielit-certification-course",
-                image: "/images/courses/OLevel.webp"
-              },
-              {
-                title: "Tally Prime with GST – Complete Business Accounting Course",
-                category: "Accounting & Finance",
-                duration: "3 months",
-                students: "565+",
-                slug: "tally-prime-with-gst-complete-business-accounting-course",
-                image: "/images/courses/TallyPrime.webp"
-              },
-            ].map((course, idx) => (
-              <div key={idx} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-                <span className="text-sm bg-zinc-100 text-black px-3 py-1 rounded-full">
-                  {course.category}
-                </span>
-                <h3 className="text-xl font-bold mt-4 mb-2">{course.title}</h3>
-                <p className="text-gray-600 text-sm mb-4">{course.duration}</p>
-                <p className="text-gray-700 mb-4">{course.students} Students</p>
-                <Link href={`/courses/${course.slug}`}>
-                  <button className="text-black font-semibold hover:text-black">
-                    Learn More →
+          {loading ? (
+            <div className="flex justify-center items-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {courses.slice(0, 3).map((course) => (
+                  <div key={course.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                    {course.image ? (
+                      <img
+                        src={course.image}
+                        alt={course.title}
+                        className="w-full h-48 object-cover rounded-lg mb-4"
+                      />
+                    ) : (
+                      <div className="w-full h-48 bg-gray-300 rounded-lg mb-4 flex items-center justify-center">
+                        <span className="text-gray-500 text-center">No image available</span>
+                      </div>
+                    )}
+                    <span className="text-sm bg-zinc-100 text-black px-3 py-1 rounded-full">
+                      {course.category}
+                    </span>
+                    <h3 className="text-xl font-bold mt-4 mb-2">{course.title}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{course.duration}</p>
+                    <p className="text-gray-700 mb-4">{course.studentsCount}+ Students</p>
+                    <Link href={`/courses/${course.slug}`}>
+                      <button className="text-black font-semibold hover:text-black">
+                        Learn More →
+                      </button>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-8">
+                <Link href="/courses">
+                  <button className="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-black transition">
+                    View All Courses
                   </button>
                 </Link>
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link href="/courses">
-              <button className="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-black transition">
-                View All Courses
-              </button>
-            </Link>
-          </div>
+            </>
+          )}
         </div>
       </section>
 

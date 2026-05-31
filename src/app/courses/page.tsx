@@ -75,11 +75,18 @@ export default function CoursesPage() {
                 key={course.id}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border border-gray-200"
               >
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
+                {course.image && (
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-full h-48 object-cover rounded-lg mb-4"
+                  />
+                )}
+                {!course.image && (
+                  <div className="w-full h-48 bg-gray-300 rounded-lg mb-4 flex items-center justify-center">
+                    <span className="text-gray-500 text-center">No image available</span>
+                  </div>
+                )}
                 <span className="text-sm bg-zinc-100 text-black px-3 py-1 rounded-full">
                   {course.category}
                 </span>

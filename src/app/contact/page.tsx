@@ -104,13 +104,12 @@ export default function ContactPage() {
                     +91-9058600703
                   </p>
                 </div>
-
                 <div>
                   <h3 className="text-xl font-bold text-black mb-2">
                     📧 Email
                   </h3>
                   <p className="text-gray-700">
-                    info@niceacademy.com
+                    info@dzonesolutions.in
                   </p>
                 </div>
 

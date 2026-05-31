@@ -1,0 +1,92 @@
+import { PrismaClient } from "@prisma/client";
+import { NextResponse, NextRequest } from "next/server";
+import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: params.id },
+      include: {
+        enrollments: {
+          include: {
+            course: true,
+          },
+        },
+        testResults: {
+          include: {
+            test: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch user" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const body = await request.json();
+    const { email, name, password, role } = body;
+
+    const updateData: any = {
+      email,
+      name,
+      role,
+    };
+
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const user = await prisma.user.update({
+      where: { id: params.id },
+      data: updateData,
+    });
+
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return NextResponse.json(
+      { error: "Failed to update user" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await prisma.user.delete({
+      where: { id: params.id },
+    });
+
+    return NextResponse.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return NextResponse.json(
+      { error: "Failed to delete user" },
+      { status: 500 }
+    );
+  }
+}
