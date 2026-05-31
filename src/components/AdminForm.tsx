@@ -38,7 +38,7 @@ export default function AdminForm({
   submitText = "Submit",
 }: AdminFormProps) {
   const [formData, setFormData] = useState<Record<string, any>>(
-    fields.reduce((acc, field) => {
+    fields.reduce((acc: Record<string, any>, field) => {
       acc[field.name] = field.value ?? "";
       return acc;
     }, {})
@@ -47,7 +47,7 @@ export default function AdminForm({
   // Update form data when fields change (e.g., when data is loaded)
   useEffect(() => {
     setFormData(
-      fields.reduce((acc, field) => {
+      fields.reduce((acc: Record<string, any>, field) => {
         acc[field.name] = field.value ?? "";
         return acc;
       }, {})
