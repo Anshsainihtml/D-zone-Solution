@@ -5,11 +5,12 @@ const prisma = new PrismaClient();
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const test = await prisma.test.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         course: true,
         questions: true,
@@ -37,14 +38,15 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const body = await request.json();
     const { title, slug, courseId, module, totalQuestions, description } = body;
 
     const test = await prisma.test.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         slug,
@@ -67,11 +69,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     await prisma.test.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Test deleted successfully" });
