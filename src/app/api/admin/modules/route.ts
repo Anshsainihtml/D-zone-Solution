@@ -39,6 +39,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(module, { status: 201 });
   } catch (error) {
     console.error("Error creating module:", error);
+    const err = error as any;
+    if (err.code === "P2003") {
+      return NextResponse.json(
+        { error: "Invalid course ID" },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to create module" },
       { status: 500 }

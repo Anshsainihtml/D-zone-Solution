@@ -63,6 +63,19 @@ export async function PUT(
     return NextResponse.json(course);
   } catch (error) {
     console.error("Error updating course:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Course not found" },
+        { status: 404 }
+      );
+    }
+    if (err.code === "P2002") {
+      return NextResponse.json(
+        { error: "Course slug already exists" },
+        { status: 409 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to update course" },
       { status: 500 }
@@ -83,6 +96,13 @@ export async function DELETE(
     return NextResponse.json({ message: "Course deleted successfully" });
   } catch (error) {
     console.error("Error deleting course:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Course not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to delete course" },
       { status: 500 }

@@ -46,6 +46,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(question, { status: 201 });
   } catch (error) {
     console.error("Error creating question:", error);
+    const err = error as any;
+    if (err.code === "P2003") {
+      return NextResponse.json(
+        { error: "Invalid test ID" },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to create question" },
       { status: 500 }

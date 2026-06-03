@@ -43,6 +43,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(test, { status: 201 });
   } catch (error) {
     console.error("Error creating test:", error);
+    const err = error as any;
+    if (err.code === "P2002") {
+      return NextResponse.json(
+        { error: "Test with this slug already exists" },
+        { status: 409 }
+      );
+    }
+    if (err.code === "P2003") {
+      return NextResponse.json(
+        { error: "Invalid course ID" },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to create test" },
       { status: 500 }

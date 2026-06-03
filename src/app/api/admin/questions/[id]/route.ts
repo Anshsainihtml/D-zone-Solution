@@ -14,6 +14,13 @@ export async function DELETE(
     return NextResponse.json({ message: "Question deleted successfully" });
   } catch (error) {
     console.error("Error deleting question:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Question not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to delete question" },
       { status: 500 }
@@ -44,6 +51,13 @@ export async function PUT(
     return NextResponse.json(question);
   } catch (error) {
     console.error("Error updating question:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Question not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to update question" },
       { status: 500 }

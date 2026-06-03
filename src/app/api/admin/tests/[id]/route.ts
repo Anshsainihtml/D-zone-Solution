@@ -58,6 +58,19 @@ export async function PUT(
     return NextResponse.json(test);
   } catch (error) {
     console.error("Error updating test:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Test not found" },
+        { status: 404 }
+      );
+    }
+    if (err.code === "P2003") {
+      return NextResponse.json(
+        { error: "Invalid course ID" },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to update test" },
       { status: 500 }
@@ -78,6 +91,13 @@ export async function DELETE(
     return NextResponse.json({ message: "Test deleted successfully" });
   } catch (error) {
     console.error("Error deleting test:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Test not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to delete test" },
       { status: 500 }

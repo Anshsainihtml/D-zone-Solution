@@ -14,6 +14,13 @@ export async function DELETE(
     return NextResponse.json({ message: "Module deleted successfully" });
   } catch (error) {
     console.error("Error deleting module:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Module not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to delete module" },
       { status: 500 }
@@ -42,6 +49,13 @@ export async function PUT(
     return NextResponse.json(module);
   } catch (error) {
     console.error("Error updating module:", error);
+    const err = error as any;
+    if (err.code === "P2025") {
+      return NextResponse.json(
+        { error: "Module not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to update module" },
       { status: 500 }
