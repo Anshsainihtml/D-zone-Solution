@@ -50,3 +50,5 @@ npx ts-node scripts/create-admin.ts
 ```
 
 Then come back to Neon later for production.
+vercel env add DATABASE_URL
+# paste the connection string when prompted

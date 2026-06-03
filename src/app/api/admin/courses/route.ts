@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   try {
@@ -59,6 +57,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(course, { status: 201 });
   } catch (error) {
     console.error("Error creating course:", error);
+    const err = error as any;
+    if (err.code === "P2002") {
+      return NextResponse.json(
+        { error: "Course with this slug already exists" },
+        { status: 409 }
+      );
+    }
     return NextResponse.json(
       { error: "Failed to create course" },
       { status: 500 }
