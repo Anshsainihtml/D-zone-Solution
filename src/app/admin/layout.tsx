@@ -1,18 +1,25 @@
-"use client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { validateSession } from "@/lib/auth";
+import AdminLayoutClient from "./AdminLayoutClient";
 
-import AdminSidebar from "@/components/AdminSidebar";
-
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="fixed inset-0 z-50 flex bg-gray-50">
-      <AdminSidebar />
-      <main className="flex-1 ml-64 overflow-y-auto">
-        {children}
-      </main>
-    </div>
-  );
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth-token")?.value;
+
+  if (!token) {
+    redirect("/login");
+  }
+
+  const auth = await validateSession(token);
+
+  if (!auth || auth.role !== "admin") {
+    redirect("/login");
+  }
+
+  return <AdminLayoutClient>{children}</AdminLayoutClient>;
 }
