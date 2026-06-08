@@ -143,16 +143,25 @@ model BlogPost {
 }
 
 model Certificate {
-  id            String    @id @default(cuid())
-  serialNumber  String    @unique
-  rollNumber    String    @unique
-  studentName   String
-  courseName    String
-  completionDate DateTime
-  verificationCode String @unique
-  isValid       Boolean   @default(true)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  serialNumber     String    @unique
+  rollNumber       String    @unique
+  studentName      String
+  fatherName       String    @default("")
+  motherName       String    @default("")
+  dateOfBirth      String    @default("")
+  gender           String    @default("")
+  courseName       String
+  courseDuration   String    @default("6 Months")
+  session          String    @default("")
+  grade            String    @default("")
+  completionDate   DateTime
+  issueDate        DateTime  @default(now())
+  verificationCode String    @unique
+  isValid          Boolean   @default(true)
+  certificateUrl   String?   // Uploaded certificate file URL from Uploadthing
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
 
 model Settings {

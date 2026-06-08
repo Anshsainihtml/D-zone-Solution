@@ -15,6 +15,7 @@ type Certificate = {
   session: string;
   grade: string;
   issueDate: string;
+  certificateUrl?: string;
 };
 
 type CertificateResult =
@@ -478,25 +479,51 @@ export default function CertificatePage() {
                     </div>
 
                     {/* Download */}
-                    <button className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 text-lg font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-700">
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
+                    {result.certificate.certificateUrl ? (
+                      <a
+                        href={result.certificate.certificateUrl}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 text-lg font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-700"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 4v12m0 0l-4-4m4 4l4-4"
-                        />
-                      </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 4v12m0 0l-4-4m4 4l4-4"
+                          />
+                        </svg>
 
-                      Download Certificate
-                    </button>
+                        Download Certificate
+                      </a>
+                    ) : (
+                      <div className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-slate-300 px-6 py-4 text-lg font-semibold text-slate-600 cursor-not-allowed">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 4v12m0 0l-4-4m4 4l4-4"
+                          />
+                        </svg>
+
+                        Certificate File Not Available
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
