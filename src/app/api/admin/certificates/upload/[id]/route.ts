@@ -3,10 +3,10 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     const { certificateUrl } = await request.json();
 
     if (!certificateUrl || typeof certificateUrl !== "string") {
@@ -35,10 +35,10 @@ export async function PATCH(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
 
     const certificate = await prisma.certificate.findUnique({
       where: { id },
