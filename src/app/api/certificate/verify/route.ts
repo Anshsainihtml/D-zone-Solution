@@ -27,8 +27,15 @@ export async function POST(request: Request) {
     } = (await request.json()) as CertificateVerifyRequest;
 
     const normalizedSearch = normalize(
-      serialNumber || rollNumber || studentName || fatherName || verificationCode
+      serialNumber ||
+        rollNumber ||
+        studentName ||
+        fatherName ||
+        verificationCode
     );
+
+    const normalizedStudentName = normalize(studentName);
+    const normalizedFatherName = normalize(fatherName);
 
     if (!normalizedSearch && !(normalizedStudentName && normalizedFatherName)) {
       return NextResponse.json({
@@ -41,30 +48,85 @@ export async function POST(request: Request) {
       where: {
         OR: [
           ...(serialNumber
-            ? [{ serialNumber: { equals: serialNumber.trim(), mode: "insensitive" as const } }]
+            ? [
+                {
+                  serialNumber: {
+                    equals: serialNumber.trim(),
+                    mode: "insensitive" as const,
+                  },
+                },
+              ]
             : []),
+
           ...(rollNumber
-            ? [{ rollNumber: { equals: rollNumber.trim(), mode: "insensitive" as const } }]
+            ? [
+                {
+                  rollNumber: {
+                    equals: rollNumber.trim(),
+                    mode: "insensitive" as const,
+                  },
+                },
+              ]
             : []),
+
           ...(verificationCode
-            ? [{ verificationCode: { equals: verificationCode.trim(), mode: "insensitive" as const } }]
+            ? [
+                {
+                  verificationCode: {
+                    equals: verificationCode.trim(),
+                    mode: "insensitive" as const,
+                  },
+                },
+              ]
             : []),
+
           ...(studentName && fatherName
             ? [
                 {
                   AND: [
-                    { studentName: { equals: studentName.trim(), mode: "insensitive" as const } },
-                    { fatherName: { equals: fatherName.trim(), mode: "insensitive" as const } },
+                    {
+                      studentName: {
+                        equals: studentName.trim(),
+                        mode: "insensitive" as const,
+                      },
+                    },
+                    {
+                      fatherName: {
+                        equals: fatherName.trim(),
+                        mode: "insensitive" as const,
+                      },
+                    },
                   ],
                 },
               ]
             : []),
+
           ...(normalizedSearch
             ? [
-                { serialNumber: { equals: normalizedSearch, mode: "insensitive" as const } },
-                { rollNumber: { equals: normalizedSearch, mode: "insensitive" as const } },
-                { verificationCode: { equals: normalizedSearch, mode: "insensitive" as const } },
-                { rollNumber: { endsWith: normalizedSearch, mode: "insensitive" as const } },
+                {
+                  serialNumber: {
+                    equals: normalizedSearch,
+                    mode: "insensitive" as const,
+                  },
+                },
+                {
+                  rollNumber: {
+                    equals: normalizedSearch,
+                    mode: "insensitive" as const,
+                  },
+                },
+                {
+                  verificationCode: {
+                    equals: normalizedSearch,
+                    mode: "insensitive" as const,
+                  },
+                },
+                {
+                  rollNumber: {
+                    endsWith: normalizedSearch,
+                    mode: "insensitive" as const,
+                  },
+                },
               ]
             : []),
         ],
@@ -116,9 +178,14 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Certificate verify error:", error);
+
     return NextResponse.json(
-      { error: "Failed to verify certificate" },
-      { status: 500 }
+      {
+        error: "Failed to verify certificate",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }

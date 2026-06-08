@@ -1,11 +1,31 @@
-export const certificateFormFields = (values?: Record<string, unknown>) => [
+type CertificateFormValues = {
+  studentName?: string;
+  fatherName?: string;
+  motherName?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  courseName?: string;
+  courseDuration?: string;
+  session?: string;
+  grade?: string;
+  completionDate?: string;
+  issueDate?: string;
+  serialNumber?: string;
+  rollNumber?: string;
+  verificationCode?: string;
+  isValid?: boolean;
+};
+
+export const certificateFormFields = (
+  values?: CertificateFormValues
+) => [
   {
     name: "studentName",
     label: "Student Full Name",
     type: "text" as const,
     required: true,
     placeholder: "Enter student full name",
-    value: values?.studentName || "",
+    value: values?.studentName ?? "",
   },
   {
     name: "fatherName",
@@ -13,14 +33,14 @@ export const certificateFormFields = (values?: Record<string, unknown>) => [
     type: "text" as const,
     required: true,
     placeholder: "Enter father's name",
-    value: values?.fatherName || "",
+    value: values?.fatherName ?? "",
   },
   {
     name: "motherName",
     label: "Mother's Name",
     type: "text" as const,
     placeholder: "Enter mother's name",
-    value: values?.motherName || "",
+    value: values?.motherName ?? "",
   },
   {
     name: "dateOfBirth",
@@ -28,14 +48,14 @@ export const certificateFormFields = (values?: Record<string, unknown>) => [
     type: "text" as const,
     required: true,
     placeholder: "e.g. 15/07/04",
-    value: values?.dateOfBirth || "",
+    value: values?.dateOfBirth ?? "",
   },
   {
     name: "gender",
     label: "Gender",
     type: "select" as const,
     required: true,
-    value: values?.gender || "",
+    value: values?.gender ?? "",
     options: [
       { label: "Male", value: "Male" },
       { label: "Female", value: "Female" },
@@ -47,7 +67,7 @@ export const certificateFormFields = (values?: Record<string, unknown>) => [
     label: "Course Name",
     type: "select" as const,
     required: true,
-    value: values?.courseName || "",
+    value: values?.courseName ?? "",
     options: [
       { label: "DCA", value: "DCA" },
       { label: "DFA", value: "DFA" },
@@ -63,7 +83,7 @@ export const certificateFormFields = (values?: Record<string, unknown>) => [
     type: "text" as const,
     required: true,
     placeholder: "e.g. 6 Months",
-    value: values?.courseDuration || "6 Months",
+    value: values?.courseDuration ?? "6 Months",
   },
   {
     name: "session",
@@ -71,14 +91,14 @@ export const certificateFormFields = (values?: Record<string, unknown>) => [
     type: "text" as const,
     required: true,
     placeholder: "e.g. July-December (2025)",
-    value: values?.session || "",
+    value: values?.session ?? "",
   },
   {
     name: "grade",
     label: "Grade",
     type: "select" as const,
     required: true,
-    value: values?.grade || "",
+    value: values?.grade ?? "",
     options: [
       { label: "A+", value: "A+" },
       { label: "A", value: "A" },
@@ -92,47 +112,50 @@ export const certificateFormFields = (values?: Record<string, unknown>) => [
     label: "Completion Date",
     type: "date" as const,
     required: true,
-    value: values?.completionDate || "",
+    value: values?.completionDate ?? "",
   },
   {
     name: "issueDate",
     label: "Issue Date",
     type: "date" as const,
     required: true,
-    value: values?.issueDate || "",
+    value: values?.issueDate ?? "",
   },
   {
     name: "serialNumber",
     label: "Serial Number (auto if empty)",
     type: "text" as const,
     placeholder: "Leave empty to auto-generate",
-    value: values?.serialNumber || "",
+    value: values?.serialNumber ?? "",
   },
   {
     name: "rollNumber",
     label: "Roll Number (auto if empty)",
     type: "text" as const,
     placeholder: "Leave empty to auto-generate",
-    value: values?.rollNumber || "",
+    value: values?.rollNumber ?? "",
   },
   {
     name: "verificationCode",
     label: "Verification Code (auto if empty)",
     type: "text" as const,
     placeholder: "Leave empty to auto-generate",
-    value: values?.verificationCode || "",
+    value: values?.verificationCode ?? "",
   },
   {
     name: "isValid",
     label: "Certificate Valid",
     type: "checkbox" as const,
-    value: values?.isValid !== false,
+    value: values?.isValid ?? true,
   },
 ];
 
 export function toDateInputValue(value?: string | Date | null) {
   if (!value) return "";
+
   const date = value instanceof Date ? value : new Date(value);
+
   if (Number.isNaN(date.getTime())) return "";
+
   return date.toISOString().split("T")[0];
 }
