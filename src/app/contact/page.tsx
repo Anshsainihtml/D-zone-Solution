@@ -83,7 +83,6 @@ export default function ContactPage() {
             {/* Contact Info */}
             <div>
               <h2 className="text-3xl font-bold mb-6">Contact Information</h2>
-
               <div className="space-y-8">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-2">

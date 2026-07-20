@@ -12,7 +12,8 @@ interface FormField {
     | "number"
     | "textarea"
     | "select"
-    | "checkbox";
+    | "checkbox"
+    | "date";
   required?: boolean;
   placeholder?: string;
   value?: string | number | boolean;
@@ -140,6 +141,15 @@ export default function AdminForm({
                   checked={formData[field.name] || false}
                   onChange={handleChange}
                   className="w-4 h-4 rounded border-gray-300"
+                />
+              ) : field.type === "date" ? (
+                <input
+                  type="date"
+                  name={field.name}
+                  value={formData[field.name] || ""}
+                  onChange={handleChange}
+                  required={field.required}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ) : (
                 <input

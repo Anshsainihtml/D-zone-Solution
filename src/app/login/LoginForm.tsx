@@ -1,21 +1,21 @@
-<<<<<<< HEAD
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
-  const router = useRouter();
+export default function LoginForm() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("from") || "/admin";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
-  // Check if user is already authenticated
   useEffect(() => {
     let isMounted = true;
-    
+
     const checkAuth = async () => {
       try {
         const response = await fetch("/api/auth/verify", {
@@ -23,12 +23,17 @@ export default function LoginPage() {
         });
 
         if (response.ok && isMounted) {
-          // User is already authenticated - redirect to admin
-          router.replace("/admin");
-          return;
+          const data = await response.json();
+          if (data.user?.role === "admin") {
+            const destination = redirectTo.startsWith("/admin")
+              ? redirectTo
+              : "/admin";
+            window.location.href = destination;
+            return;
+          }
         }
-      } catch (error) {
-        console.log("Auth check failed, user not logged in");
+      } catch {
+        // Not logged in — show login form
       } finally {
         if (isMounted) {
           setCheckingAuth(false);
@@ -36,23 +41,18 @@ export default function LoginPage() {
       }
     };
 
-    // Add delay to ensure middleware processing is complete
-    const timeoutId = setTimeout(() => {
-      checkAuth();
-    }, 100);
+    checkAuth();
 
     return () => {
       isMounted = false;
-      clearTimeout(timeoutId);
     };
-  }, [router]);
+  }, [redirectTo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // Validate inputs
     if (!email || !password) {
       setError("Email and password are required");
       setLoading(false);
@@ -71,7 +71,7 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Important: include cookies
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
@@ -83,10 +83,8 @@ export default function LoginPage() {
         return;
       }
 
-      // Login successful - wait a moment for cookie to be set, then redirect
-      setTimeout(() => {
-        router.replace("/admin");
-      }, 100);
+      const destination = redirectTo.startsWith("/admin") ? redirectTo : "/admin";
+      window.location.href = destination;
     } catch (err) {
       console.error("Login error:", err);
       setError("An error occurred. Please try again.");
@@ -109,15 +107,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-xl p-8">
-          {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">Admin Panel</h1>
             <p className="text-gray-600 mt-2">Sign in to your account</p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email Input */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
@@ -135,7 +130,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Password Input */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
@@ -147,19 +141,18 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
+                autoComplete="current-password"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 disabled={loading}
               />
             </div>
 
-            {/* Error Message */}
             {error && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-700 text-sm">{error}</p>
               </div>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -169,7 +162,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Footer */}
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <p className="text-sm text-gray-600">
               <strong>Demo Credentials:</strong>
@@ -182,26 +174,7 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-=======
-import { Suspense } from "react";
-import LoginForm from "./LoginForm";
-
-function LoginLoading() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center p-4">
-      <div className="text-center">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        <p className="text-white mt-4">Loading...</p>
->>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
       </div>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<LoginLoading />}>
-      <LoginForm />
-    </Suspense>
   );
 }

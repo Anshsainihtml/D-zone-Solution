@@ -17,6 +17,7 @@ export function useAuth() {
   const validateAuth = useCallback(async () => {
     try {
       setIsLoading(true);
+<<<<<<< HEAD
       
       // Check if token exists in cookies
       const token = document.cookie
@@ -36,18 +37,31 @@ export function useAuth() {
       const response = await fetch("/api/auth/verify", {
         method: "GET",
         credentials: "include", // Include cookies
+=======
+
+      // auth-token is httpOnly — verify via API (browser sends cookie automatically)
+      const response = await fetch("/api/auth/verify", {
+        method: "GET",
+        credentials: "include",
+>>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
+<<<<<<< HEAD
         // Token is invalid or expired
         setIsAuthenticated(false);
         setIsAdmin(false);
         setUser(null);
         // Clear cookies
         document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+=======
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+        setUser(null);
+>>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
         setIsLoading(false);
         return;
       }

@@ -18,6 +18,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     if (!mounted || isLoading || hasRedirected) return;
 
     if (!isAuthenticated || !isAdmin) {
+<<<<<<< HEAD
       // Redirect to login only once with a small delay
       setHasRedirected(true);
       localStorage.removeItem("auth-token");
@@ -27,6 +28,14 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         router.replace("/login");
       }, 50);
       
+=======
+      setHasRedirected(true);
+
+      const redirectTimer = setTimeout(() => {
+        router.replace("/login");
+      }, 50);
+
+>>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
       return () => clearTimeout(redirectTimer);
     }
   }, [isAuthenticated, isAdmin, isLoading, mounted, hasRedirected, router]);

@@ -3,13 +3,15 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const [totalUsers, totalCourses, totalEnrollments, totalTests, totalQuestions] =
+    const [totalUsers, totalCourses, totalEnrollments, totalTests, totalQuestions, issuedCertificates, revokedCertificates] =
       await Promise.all([
         prisma.user.count(),
         prisma.course.count(),
         prisma.enrollment.count(),
         prisma.test.count(),
         prisma.question.count(),
+        prisma.certificate.count({ where: { isValid: true } }),
+        prisma.certificate.count({ where: { isValid: false } }),
       ]);
 
     const activeStudents = await prisma.user.count({
@@ -23,7 +25,8 @@ export async function GET() {
       totalTests,
       totalQuestions,
       activeStudents,
-      pendingCertificates: 0,
+      pendingCertificates: revokedCertificates,
+      issuedCertificates,
     };
 
     return NextResponse.json(stats);

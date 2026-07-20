@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE "Certificate" ADD COLUMN     "certificateUrl" TEXT,
+ADD COLUMN     "courseDuration" TEXT NOT NULL DEFAULT '6 Months',
+ADD COLUMN     "dateOfBirth" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "fatherName" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "gender" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "grade" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "issueDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "motherName" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "session" TEXT NOT NULL DEFAULT '';

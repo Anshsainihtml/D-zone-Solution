@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateSession } from "./src/lib/auth";
+import { jwtVerify } from "./src/lib/jwt";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+<<<<<<< HEAD
   // Skip middleware for public routes
+=======
+>>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
   if (
     pathname === "/" ||
     pathname === "/about" ||
@@ -17,11 +20,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+<<<<<<< HEAD
   // Protect admin routes with strict auth checks
+=======
+>>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     const token = request.cookies.get("auth-token")?.value;
+    const loginUrl = new URL("/login", request.url);
 
     if (!token) {
+<<<<<<< HEAD
       // No token found - redirect to login
       return NextResponse.redirect(new URL("/login", request.url));
     }
@@ -63,6 +71,21 @@ export async function middleware(request: NextRequest) {
       response.cookies.delete("auth-token");
       return response;
     }
+=======
+      loginUrl.searchParams.set("from", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    try {
+      jwtVerify(token);
+    } catch {
+      const response = NextResponse.redirect(loginUrl);
+      response.cookies.delete("auth-token");
+      return response;
+    }
+
+    return NextResponse.next();
+>>>>>>> b437d6fc4c5616380a54da58daa0021ad563cc40
   }
 
   return NextResponse.next();
