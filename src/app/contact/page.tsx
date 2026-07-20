@@ -101,7 +101,7 @@ export default function ContactPage() {
                     📞 Phone
                   </h3>
                   <p className="text-gray-700">
-                    +91-9058600703
+                    +91-9690285688, +91-8171553911
                   </p>
                 </div>
                 <div>
